@@ -28,8 +28,8 @@ const config = JSON.parse(fs.readFileSync(
 
 const {HOST = config.URL, PORT = process.env.PORT || config.PORT} = process.env;
 const options = {
-	key: fs.readFileSync("./ssl/server.key"),
-	cert: fs.readFileSync("./ssl/server.crt")
+	key: fs.readFileSync(path.join(__dirname, "ssl", "server.key")),
+	cert: fs.readFileSync(path.join(__dirname, "ssl", "server.crt"))
 };
 
 const app = express();
