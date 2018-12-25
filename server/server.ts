@@ -34,14 +34,14 @@ const options = {
 };
 
 const app = express();
-// const server = http.createServer(app).listen(Number(PORT), undefined, () => {
-// 	console.log(`Server is listening @ ${HOST}:${PORT}`);
-// });
-const server = https
-	.createServer(options, app)
-	.listen(Number(PORT), undefined, () => {
-		console.log(`Server is listening @ ${HOST}:${PORT}`);
-	});
+const server = http.createServer(app).listen(Number(PORT), undefined, () => {
+	console.log(`Server is listening @ ${HOST}:${PORT}`);
+});
+// const server = https
+// 	.createServer(options, app)
+// 	.listen(Number(PORT), undefined, () => {
+// 		console.log(`Server is listening @ ${HOST}:${PORT}`);
+// 	});
 
 const FileStore = fileStore(session);
 const io = socketIO(server);
