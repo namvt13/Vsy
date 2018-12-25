@@ -26,7 +26,7 @@ const config = JSON.parse(fs.readFileSync(
 	path.join(__dirname, "config.json")
 ) as any);
 
-const {HOST = config.URL, PORT = config.PORT} = process.env;
+const {HOST = config.URL, PORT = process.env.PORT || config.PORT} = process.env;
 const options = {
 	key: fs.readFileSync("./ssl/server.key"),
 	cert: fs.readFileSync("./ssl/server.crt")
