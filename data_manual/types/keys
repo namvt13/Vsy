@@ -1,0 +1,128 @@
+const promotionsType = new GraphQLObjectType({
+        name: "Promotions",
+        fields: {}
+      });
+const promotionsHistoryType = new GraphQLObjectType({
+        name: "PromotionsHistory",
+        fields: {}
+      });
+const currenciesType = new GraphQLObjectType({
+        name: "Currencies",
+        fields: {}
+      });
+const sessionsType = new GraphQLObjectType({
+        name: "Sessions",
+        fields: {}
+      });
+const addressBookType = new GraphQLObjectType({
+        name: "AddressBook",
+        fields: {}
+      });
+const addressFormatType = new GraphQLObjectType({
+        name: "AddressFormat",
+        fields: {}
+      });
+const countriesType = new GraphQLObjectType({
+        name: "Countries",
+        fields: {}
+      });
+const taxRatesType = new GraphQLObjectType({
+        name: "TaxRates",
+        fields: {}
+      });
+const taxClassType = new GraphQLObjectType({
+        name: "TaxClass",
+        fields: {}
+      });
+const customersType = new GraphQLObjectType({
+        name: "Customers",
+        fields: {}
+      });
+const whosOnlineType = new GraphQLObjectType({
+        name: "WhosOnline",
+        fields: {}
+      });
+const customersBasketType = new GraphQLObjectType({
+        name: "CustomersBasket",
+        fields: {}
+      });
+const customersBasketAttributesType = new GraphQLObjectType({
+        name: "CustomersBasketAttributes",
+        fields: {}
+      });
+const ordersType = new GraphQLObjectType({
+        name: "Orders",
+        fields: {}
+      });
+const ordersProductsType = new GraphQLObjectType({
+        name: "OrdersProducts",
+        fields: {}
+      });
+const ordersProductsAttributesType = new GraphQLObjectType({
+        name: "OrdersProductsAttributes",
+        fields: {}
+      });
+const specialsType = new GraphQLObjectType({
+        name: "Specials",
+        fields: {}
+      });
+const shopsType = new GraphQLObjectType({
+        name: "Shops",
+        fields: {}
+      });
+const shopsInfoType = new GraphQLObjectType({
+        name: "ShopsInfo",
+        fields: {}
+      });
+const reviewsType = new GraphQLObjectType({
+        name: "Reviews",
+        fields: {}
+      });
+const reviewsDescriptionType = new GraphQLObjectType({
+        name: "ReviewsDescription",
+        fields: {}
+      });
+const languagesType = new GraphQLObjectType({
+        name: "Languages",
+        fields: {}
+      });
+const ordersStatusType = new GraphQLObjectType({
+        name: "OrdersStatus",
+        fields: {}
+      });
+const productsType = new GraphQLObjectType({
+        name: "Products",
+        fields: {}
+      });
+const productsDescriptionType = new GraphQLObjectType({
+        name: "ProductsDescription",
+        fields: {}
+      });
+const productsOptionsType = new GraphQLObjectType({
+        name: "ProductsOptions",
+        fields: {}
+      });
+const productsOptionsValuesToProductsOptionsType = new GraphQLObjectType({
+        name: "ProductsOptionsValuesToProductsOptions",
+        fields: {}
+      });
+const productsOptionsValuesType = new GraphQLObjectType({
+        name: "ProductsOptionsValues",
+        fields: {}
+      });
+const productsAttributesType = new GraphQLObjectType({
+        name: "ProductsAttributes",
+        fields: {}
+      });
+const categoriesType = new GraphQLObjectType({
+        name: "Categories",
+        fields: {}
+      });
+const categoriesDescriptionType = new GraphQLObjectType({
+        name: "CategoriesDescription",
+        fields: {}
+      });
+const productsToCategoriesType = new GraphQLObjectType({
+        name: "ProductsToCategories",
+        fields: {}
+      });

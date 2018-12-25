@@ -1,0 +1,40 @@
+mutation addShop {
+  createShop(shopName: "vintage") {
+    id: cjpc6c1s104oz0120ghywjr1k
+    shopName
+  }
+}
+
+mutation addTaxClass {
+  createTaxClass(taxClassTitle: "Low AP", taxClassDescription: "Low taxes for the Asia-Pacific region") {
+    id: cjpc6cu9504v201838l1n35mv
+    taxClassTitle
+    taxClassDescription
+  }
+}
+
+mutation addProduct {
+  createProduct(productModel: "Camaro", productQuantity: 5, productPrice: 45000, shopId: "cjpc63axg03v80183h1ze9nhy", taxClassId: "cjpc63g9v03sb0120bzs2kt0n") {
+    id: cjpc6dtbh04uc01205ocvxqnd
+    productModel
+    productQuantity
+    productPrice
+  }
+}
+
+query getAllProducts {
+  allProducts {
+    id
+    productModel
+  }
+  allShops {
+    id
+    shopName
+  }
+  allCategories {
+    id
+    categoryDescription {
+      categoryName
+    }
+  }
+}

@@ -1,0 +1,446 @@
+type Promotions @model {
+	id: ID! @isUnique
+	promoTitle: String
+	promoUrl: String
+	promoImage: String
+	promoGroup: String
+	expiresImpressions: Int
+	expiresDate: DateTime
+	dateAdded: DateTime
+	dateStatusChange: DateTime
+	status: Boolean @defaultValue(value: "false")
+
+	promotionsHistory: [PromotionsHistory!]!
+		@relation(name: "PromotionsPromotionsHistory")
+}
+
+type PromotionsHistory @model {
+	id: ID! @isUnique
+	promoID: String!
+	promoShown: Int
+	promoClicked: Int
+	promoHistoryDate: DateTime
+
+	promotions: Promotions! @relation(name: "PromotionsPromotionsHistory")
+}
+
+type Currencies @model {
+	id: ID! @isUnique
+	title: String
+	code: String
+	symbolLeft: String
+	symbolRight: String
+}
+
+type Sessions @model {
+	id: ID! @isUnique
+	sessKey: String! @isUnique
+	expiry: Int
+	value: String
+}
+
+type OrdersStatus @model {
+	id: ID! @isUnique
+	languagesID: String! @isUnique
+	ordersStatusName: String
+
+	languages: Languages! @relation(name: "LanguagesOrdersStatus")
+	orders: [Orders!]! @relation(name: "OrdersOrdersStatus")
+}
+
+type Countries @model {
+	id: ID! @isUnique
+	countriesName: String
+	countriesIsoCode3: String
+
+	taxRates: [TaxRates!]! @relation(name: "CountriesTaxRates")
+	addressBook: [AddressBook!]! @relation(name: "CountriesAddressBook")
+}
+
+type TaxRates @model {
+	id: ID! @isUnique
+	taxCountriesID: String!
+	taxClassID: String!
+	taxPriority: Int
+	taxRate: Float
+	taxDescription: String
+	lastModified: DateTime
+	dateAdded: DateTime
+
+	countries: Countries! @relation(name: "CountriesTaxRates")
+	taxClass: TaxClass! @relation(name: "TaxRatesTaxClass")
+}
+
+type TaxClass @model {
+	id: ID! @isUnique
+	taxClassTitle: String
+	taxClassDescription: String
+	lastModified: DateTime
+	dateAdded: DateTime
+
+	taxRates: [TaxRates!]! @relation(name: "TaxRatesTaxClass")
+	products: [Products!]! @relation(name: "ProductsTaxClass")
+}
+
+type AddressBook @model {
+	id: ID! @isUnique
+	customersID: String! @isUnique
+	entryGender: Boolean @defaultValue(value: "false")
+	entryCompany: String
+	entryFirstname: String
+	entryLastname: String
+	entryStreetAddress: String
+	entryPostcode: String
+	entryCity: String
+	entryState: String
+	entryCountriesID: String!
+
+	countries: Countries! @relation(name: "CountriesAddressBook")
+	customers: Customers! @relation(name: "CustomersAddressBook")
+}
+
+type Customers @model {
+	id: ID! @isUnique
+	customersGender: Boolean @defaultValue(value: "false")
+	customersFirstname: String
+	customersLastname: String
+	customersDob: DateTime
+	customersEmailAddress: String
+	customersAddressBookID: String!
+	customersTelephone: String
+	customersPassword: String
+	customersNewsletter: Boolean @defaultValue(value: "false")
+
+	addressBook: AddressBook @relation(name: "CustomersAddressBook")
+	whosOnline: [WhosOnline!]! @relation(name: "CustomersWhosOnline")
+	customersBasket: [CustomersBasket!]!
+		@relation(name: "CustomersCustomersBasket")
+	customersBasketAttributes: [CustomersBasketAttributes!]!
+		@relation(name: "CustomersCustomersBasketAttributes")
+	orders: [Orders!]! @relation(name: "CustomersOrders")
+	reviews: [Reviews!]! @relation(name: "CustomersReviews")
+}
+
+type WhosOnline @model {
+	id: ID! @isUnique
+	customersID: String!
+	fullName: String
+	sessionID: String
+	ipAddress: String
+	timeEntry: String
+	timeLastClick: String
+	lastPageUrl: String
+
+	customers: Customers! @relation(name: "CustomersWhosOnline")
+}
+
+type CustomersBasket @model {
+	id: ID! @isUnique
+	customersID: String!
+	productsID: String!
+	customersBasketQuantity: Int
+	finalPrice: Float
+	customersBasketDateAdded: String
+
+	customers: Customers! @relation(name: "CustomersCustomersBasket")
+	products: Products! @relation(name: "ProductsCustomersBasket")
+}
+
+type CustomersBasketAttributes @model {
+	id: ID! @isUnique
+	customersID: String!
+	productsID: String!
+	productsOptionsID: String!
+	productsOptionsValuesID: String!
+
+	customers: Customers! @relation(name: "CustomersCustomersBasketAttributes")
+	products: Products! @relation(name: "ProductsCustomersBasketAttributes")
+	productsOptions: ProductsOptions!
+		@relation(name: "ProductsOptionsCustomersBasketAttributes")
+	productsOptionsValues: ProductsOptionsValues!
+		@relation(name: "ProductsOptionsValuesCustomersBasketAttributes")
+}
+
+type Orders @model {
+	id: ID! @isUnique
+	customersID: String!
+	customersName: String
+	customersStreetAddress: String
+	customersCity: String
+	customersPostcode: String
+	customersState: String
+	customersCountry: String
+	customersTelephone: String
+	customersEmailAddress: String
+	deliveryName: String
+	deliveryStreetAddress: String
+	deliveryCity: String
+	deliveryPostcode: String
+	deliveryState: String
+	deliveryCountry: String
+	paymentMethod: String
+	ccType: String
+	ccOwner: String
+	ccNumber: String
+	ccExpires: String
+	lastModified: DateTime
+	datePurchased: DateTime
+	shippingCost: Float
+	shippingMethod: String
+	ordersStatusID: String!
+	ordersDateFinished: DateTime
+	comments: String
+	currency: String
+	currencyValue: Float
+
+	customers: Customers! @relation(name: "CustomersOrders")
+	ordersProducts: [OrdersProducts!]! @relation(name: "OrdersOrdersProducts")
+	ordersProductsAttributes: [OrdersProductsAttributes!]!
+		@relation(name: "OrdersOrdersProductsAttributes")
+	ordersStatus: OrdersStatus! @relation(name: "OrdersOrdersStatus")
+}
+
+type OrdersProducts @model {
+	id: ID! @isUnique
+	ordersID: String!
+	productsID: String!
+	productsName: String
+	productsPrice: Float
+	finalPrice: Float
+	productsTax: Float
+	productsQuantity: Int
+
+	orders: Orders! @relation(name: "OrdersOrdersProducts")
+	products: Products! @relation(name: "ProductsOrdersProducts")
+	ordersProductsAttributes: [OrdersProductsAttributes!]!
+		@relation(name: "OrdersProductsOrdersProductsAttributes")
+}
+
+type OrdersProductsAttributes @model {
+	id: ID! @isUnique
+	ordersID: String!
+	ordersProductsID: String!
+	productsOptions: String
+	productsOptionsValues: String
+	optionsValuesPrice: Float
+	pricePrefix: Boolean @defaultValue(value: "false")
+
+	orders: Orders! @relation(name: "OrdersOrdersProductsAttributes")
+	ordersProducts: OrdersProducts!
+		@relation(name: "OrdersProductsOrdersProductsAttributes")
+}
+
+type Reviews @model {
+	id: ID! @isUnique
+	productsID: String!
+	customersID: String!
+	customersName: String
+	reviewsRating: Int
+	dateAdded: DateTime
+	lastModified: DateTime
+	reviewsRead: Int
+
+	reviewsDescription: ReviewsDescription
+		@relation(name: "ReviewsReviewsDescription")
+	customers: Customers! @relation(name: "CustomersReviews")
+	products: Products! @relation(name: "ProductsReviews")
+}
+
+type ReviewsDescription @model {
+	id: ID! @isUnique
+	reivewsID: String! @isUnique
+	languagesID: String! @isUnique
+	reviewsText: String
+
+	reviews: Reviews! @relation(name: "ReviewsReviewsDescription")
+	languages: Languages! @relation(name: "LanguagesReviewsDescription")
+}
+
+type Languages @model {
+	id: ID! @isUnique
+	name: String
+	code: String
+	image: String
+	directory: String
+	sortOrder: Int
+
+	shopsInfo: ShopsInfo @relation(name: "LanguagesShopsInfo")
+	ordersStatus: OrdersStatus @relation(name: "LanguagesOrdersStatus")
+	reviewsDescription: ReviewsDescription
+		@relation(name: "LanguagesReviewsDescription")
+	productsOptionsValues: ProductsOptionsValues
+		@relation(name: "LanguagesProductsOptionsValues")
+	productsOptions: ProductsOptions @relation(name: "LanguagesProductsOptions")
+	productsDescription: ProductsDescription
+		@relation(name: "LanguagesProductsDescription")
+	categoriesDescription: CategoriesDescription
+		@relation(name: "LanguagesCategoriesDescription")
+}
+
+type Products @model {
+	id: ID! @isUnique
+	productsQuantity: Int
+	productsModel: String
+	productsImage: String
+	productsPrice: Float
+	productsDateAdded: DateTime
+	productsLastModified: DateTime
+	productsDateAvailable: DateTime
+	productsWeight: Float
+	productsStatus: Boolean @defaultValue(value: "false")
+	productsTaxClassID: String!
+	shopsID: String!
+
+	customersBasket: [CustomersBasket!]!
+		@relation(name: "ProductsCustomersBasket")
+	reviews: [Reviews!]! @relation(name: "ProductsReviews")
+	productsToCategories: ProductsToCategories
+		@relation(name: "ProductsProductsToCategories")
+	productsDescription: ProductsDescription
+		@relation(name: "ProductsProductsDescription")
+	specials: [Specials!]! @relation(name: "ProductsSpecials")
+	ordersProducts: [OrdersProducts!]! @relation(name: "ProductsOrdersProducts")
+	customersBasketAttributes: [CustomersBasketAttributes!]!
+		@relation(name: "ProductsCustomersBasketAttributes")
+	productsAttributes: [ProductsAttributes!]!
+		@relation(name: "ProductsProductsAttributes")
+	taxClass: TaxClass! @relation(name: "ProductsTaxClass")
+	shops: Shops! @relation(name: "ProductsShops")
+}
+
+type ProductsAttributes @model {
+	id: ID! @isUnique
+	productsID: String!
+	optionsID: String!
+	optionsValuesID: String!
+	optionsValuesPrice: Float
+	pricePrefix: Boolean @defaultValue(value: "false")
+
+	products: Products! @relation(name: "ProductsProductsAttributes")
+	productsOptions: ProductsOptions!
+		@relation(name: "ProductsAttributesProductsOptions")
+	productsOptionsValues: ProductsOptionsValues!
+		@relation(name: "ProductsAttributesProductsOptionsValues")
+}
+
+type ProductsOptionsValues @model {
+	id: ID! @isUnique
+	languagesID: String! @isUnique
+	productsOptionsValuesName: String
+
+	languages: Languages! @relation(name: "LanguagesProductsOptionsValues")
+	customersBasketAttributes: [CustomersBasketAttributes!]!
+		@relation(name: "ProductsOptionsValuesCustomersBasketAttributes")
+	productsAttributes: [ProductsAttributes!]!
+		@relation(name: "ProductsAttributesProductsOptionsValues")
+	productsOptionsValuesToProductsOptions: [ProductsOptionsValuesToProductsOptions!]!
+		@relation(
+			name: "ProductsOptionsValuesProductsOptionsValuesToProductsOptions"
+		)
+}
+
+type ProductsOptionsValuesToProductsOptions @model {
+	id: ID! @isUnique
+	productsOptionsID: String!
+	productsOptionsValuesID: String!
+
+	productsOptions: ProductsOptions!
+		@relation(name: "ProductsOptionsProductsOptionsValuesToProductsOptions")
+	productsOptionsValues: ProductsOptionsValues!
+		@relation(
+			name: "ProductsOptionsValuesProductsOptionsValuesToProductsOptions"
+		)
+}
+
+type ProductsOptions @model {
+	id: ID! @isUnique
+	languagesID: String! @isUnique
+	productsOptionsName: String
+
+	languages: Languages! @relation(name: "LanguagesProductsOptions")
+	productsAttributes: [ProductsAttributes!]!
+		@relation(name: "ProductsAttributesProductsOptions")
+	customersBasketAttributes: [CustomersBasketAttributes!]!
+		@relation(name: "ProductsOptionsCustomersBasketAttributes")
+	productsOptionsValuesToProductsOptions: [ProductsOptionsValuesToProductsOptions!]!
+		@relation(name: "ProductsOptionsProductsOptionsValuesToProductsOptions")
+}
+
+type ProductsDescription @model {
+	id: ID! @isUnique
+	productsID: String! @isUnique
+	languagesID: String! @isUnique
+	productsName: String
+	productsDescription: String
+	productsUrl: String
+	productsViewed: String
+
+	languages: Languages! @relation(name: "LanguagesProductsDescription")
+	products: Products! @relation(name: "ProductsProductsDescription")
+}
+
+type Categories @model {
+	id: ID! @isUnique
+	categoriesImage: String
+	parentCategoriesID: String!
+	sortOrder: Int
+	dateAdded: DateTime
+	lastModified: DateTime
+
+	categoriesDescription: CategoriesDescription
+		@relation(name: "CategoriesCategoriesDescription")
+	categories: Categories @relation(name: "CategoriesCategories")
+	productsToCategories: ProductsToCategories
+		@relation(name: "CategoriesProductsToCategories")
+}
+
+type CategoriesDescription @model {
+	id: ID! @isUnique
+	categoriesID: String! @isUnique
+	languagesID: String! @isUnique
+	categoriesName: String
+
+	languages: Languages! @relation(name: "LanguagesCategoriesDescription")
+	categories: Categories! @relation(name: "CategoriesCategoriesDescription")
+}
+
+type ProductsToCategories @model {
+	id: ID! @isUnique
+	productsID: String! @isUnique
+	categoriesID: String! @isUnique
+
+	categories: Categories! @relation(name: "CategoriesProductsToCategories")
+	products: Products! @relation(name: "ProductsProductsToCategories")
+}
+
+type Shops @model {
+	id: ID! @isUnique
+	shopsName: String
+	shopsImage: String
+
+	shopsInfo: ShopsInfo @relation(name: "ShopsShopsInfo")
+	products: [Products!]! @relation(name: "ProductsShops")
+}
+
+type ShopsInfo @model {
+	id: ID! @isUnique
+	shopsID: String! @isUnique
+	languagesID: String! @isUnique
+	shopsUrl: String
+	urlClicked: Int
+	dateLastClick: DateTime
+	dateAdded: DateTime
+
+	shops: Shops! @relation(name: "ShopsShopsInfo")
+	languages: Languages! @relation(name: "LanguagesShopsInfo")
+}
+
+type Specials @model {
+	id: ID! @isUnique
+	productsID: String!
+	specialsNewProductsPrice: Float
+	specialsDateAdded: DateTime
+	specialsLastModified: DateTime
+
+	products: Products! @relation(name: "ProductsSpecials")
+}

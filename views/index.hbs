@@ -1,0 +1,40 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+<form id='regForm'>
+  <input id="usernameLogin"
+         type='text'
+         name='email'
+         placeholder='Your username...'>
+  <input id="passwordLogin"
+         type='password'
+         name='password'
+         placeholder='Your password...'>
+  <hr>
+  <button id='submitBtn'
+          type='submit'>Login</button>
+</form>
+<a href='/auth/logout'>Logout</a>
+<a href='/content'>Enter</a>
+<a href='/auth/facebook'>Facebook Login</a>
+<a href="/auth/twitter">Twitter Login</a>
+<a href="/auth/google">Google Login</a>
+<hr>
+<button id='searchBtn'
+        type='button'>Search "cma"</button>
+<button id="ioBtn"
+        type="button">Push IO Msg</button>
+<hr>
+<form action="/auth/register"
+      method="POST">
+  <input id="usernameRegister"
+         type="search"
+         name="username"
+         placeholder="Your username...">
+  <input id="passwordRegister"
+         type="password"
+         name="password"
+         placeholder="Your password...">
+  <hr>
+  <button id="regBtn"
+          type="submit">Register</button>
+</form>

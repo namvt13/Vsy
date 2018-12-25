@@ -1,0 +1,471 @@
+type Currencies @model {
+	id: ID! @isUnique
+	currencies_id: String! @isUnique
+	title: String
+	code: String
+	symbol_left: String
+	symbol_right: String
+}
+
+type Sessions @model {
+	id: ID! @isUnique
+	sess_key: String! @isUnique
+	expiry: Int
+	value: String
+}
+
+type Promotions @model {
+	id: ID! @isUnique
+	promo_id: String! @isUnique
+	promo_title: String
+	promo_url: String
+	promo_image: String
+	promo_group: String
+	expires_impressions: Int
+	expires_date: DateTime
+	date_added: DateTime
+	date_status_change: DateTime
+	status: Boolean @defaultValue(value: "false")
+
+	promotions_history: [PromotionsHistory!]!
+		@relation(name: "Promotions_PromotionsHistory")
+}
+
+type PromotionsHistory @model {
+	id: ID! @isUnique
+	promo_history_id: String! @isUnique
+	promo_id: String!
+	promo_shown: Int
+	promo_clicked: Int
+	promo_history_date: DateTime
+
+	promotions: Promotions! @relation(name: "Promotions_PromotionsHistory")
+}
+
+type OrderStatus @model {
+	id: ID! @isUnique
+	orders_status_id: String! @isUnique
+	languages_id: String! @isUnique
+	orders_status_name: String
+
+	languages: Languages! @relation(name: "Languages_OrdersStatus")
+}
+
+type Countries @model {
+	id: ID! @isUnique
+	countries_id: String! @isUnique
+	countries_name: String
+	countries_iso_code_3: String
+
+	tax_rates: [TaxRates!]! @relation(name: "Countries_TaxRates")
+	address_book: [AddressBook!]! @relation(name: "Countries_AddressBook")
+}
+
+type TaxRates @model {
+	id: ID! @isUnique
+	tax_rates_id: String! @isUnique
+	tax_countries_id: String!
+	tax_class_id: String!
+	tax_priority: Int
+	tax_rate: Float
+	tax_description: String
+	last_modified: DateTime
+	date_added: DateTime
+
+	countries: Countries! @relation(name: "Countries_TaxRates")
+	tax_class: TaxClass! @relation(name: "TaxRates_TaxClass")
+}
+
+type TaxClass @model {
+	id: ID! @isUnique
+	tax_class_id: String! @isUnique
+	tax_class_title: String
+	tax_class_description: String
+	last_modified: DateTime
+	date_added: DateTime
+
+	tax_rates: [TaxRates!]! @relation(name: "TaxRates_TaxClass")
+	products: [Products!]! @relation(name: "Products_TaxClass")
+}
+
+type AddressBook @model {
+	id: ID! @isUnique
+	customers_id: String! @isUnique
+	address_book_id: String! @isUnique
+	entry_gender: Boolean @defaultValue(value: "false")
+	entry_company: String
+	entry_firstname: String
+	entry_lastname: String
+	entry_street_address: String
+	entry_postcode: String
+	entry_city: String
+	entry_state: String
+	entry_countries_id: String!
+
+	countries: Countries! @relation(name: "Countries_AddressBook")
+	customers: Customers! @relation(name: "Customers_AddressBook")
+}
+
+type Customers @model {
+	id: ID! @isUnique
+	customers_id: String! @isUnique
+	customers_gender: Boolean @defaultValue(value: "false")
+	customers_firstname: String
+	customers_lastname: String
+	customers_dob: DateTime
+	customers_email_address: String
+	customers_address_book_id: String!
+	customers_telephone: String
+	customers_password: String
+	customers_newsletter: Boolean @defaultValue(value: "false")
+
+	address_book: AddressBook! @relation(name: "Customers_AddressBook")
+	whos_online: [WhosOnline!]! @relation(name: "Customers_WhosOnline")
+	customers_basket: [CustomersBasket!]!
+		@relation(name: "Customers_CustomersBasket")
+	customers_basket_attributes: [CustomersBasketAttributes!]!
+		@relation(name: "Customers_CustomersBasketAttributes")
+	orders: [Orders!]! @relation(name: "Customers_Orders")
+	reviews: [Reviews!]! @relation(name: "Customers_Reviews")
+}
+
+type WhosOnline @model {
+	id: ID! @isUnique
+	task_id: String! @isUnique
+	customers_id: String!
+	full_name: String
+	session_id: String
+	ip_address: String
+	time_entry: String
+	time_last_click: String
+	last_page_url: String
+
+	customers: Customers! @relation(name: "Customers_WhosOnline")
+}
+
+type CustomersBasket @model {
+	id: ID! @isUnique
+	customers_basket_id: String! @isUnique
+	customers_id: String!
+	products_id: String!
+	customers_basket_quantity: Int
+	final_price: Float
+	customers_basket_date_added: String
+
+	customers: Customers! @relation(name: "Customers_CustomersBasket")
+	products: Products! @relation(name: "Products_CustomersBasket")
+}
+
+type CustomersBasketAttributes @model {
+	id: ID! @isUnique
+	customers_basket_attributes_id: String! @isUnique
+	customers_id: String!
+	products_id: String!
+	products_options_id: String!
+	products_options_values_id: String!
+
+	customers: Customers! @relation(name: "Customers_CustomersBasketAttributes")
+	products: Products! @relation(name: "Products_CustomersBasketAttributes")
+	products_options: ProductsOptions!
+		@relation(name: "ProductsOptions_CustomersBasketAttributes")
+	products_options_values: ProductsOptionsValues!
+		@relation(name: "ProductsOptionsValues_CustomersBasketAttributes")
+}
+
+type Orders @model {
+	id: ID! @isUnique
+	orders_id: String! @isUnique
+	customers_id: String!
+	customers_name: String
+	customers_street_address: String
+	customers_city: String
+	customers_postcode: String
+	customers_state: String
+	customers_country: String
+	customers_telephone: String
+	customers_email_address: String
+	delivery_name: String
+	delivery_street_address: String
+	delivery_city: String
+	delivery_postcode: String
+	delivery_state: String
+	delivery_country: String
+	payment_method: String
+	cc_type: String
+	cc_owner: String
+	cc_number: String
+	cc_expires: String
+	last_modified: DateTime
+	date_purchased: DateTime
+	shipping_cost: Float
+	shipping_method: String
+	orders_status: String
+	orders_date_finished: DateTime
+	comments: String
+	currency: String
+	currency_value: Float
+
+	customers: Customers! @relation(name: "Customers_Orders")
+	orders_products: [OrdersProducts!]! @relation(name: "Orders_OrdersProducts")
+	orders_products_attributes: [OrdersProductsAttributes!]!
+		@relation(name: "Orders_OrdersProductsAttributes")
+}
+
+type OrdersProducts @model {
+	id: ID! @isUnique
+	orders_products_id: String! @isUnique
+	orders_id: String!
+	products_id: String!
+	products_name: String
+	products_price: Float
+	final_price: Float
+	products_tax: Float
+	products_quantity: Int
+
+	orders: Orders! @relation(name: "Orders_OrdersProducts")
+	products: Products! @relation(name: "Products_OrdersProducts")
+	orders_products_attributes: [OrdersProductsAttributes!]!
+		@relation(name: "OrdersProducts_OrdersProductsAttributes")
+}
+
+type OrdersProductsAttributes @model {
+	id: ID! @isUnique
+	orders_products_attributes_id: String! @isUnique
+	orders_id: String!
+	orders_products_id: String!
+	products_options: String
+	products_options_values: String
+	options_values_price: Float
+	price_prefix: Boolean @defaultValue(value: "false")
+
+	orders: Orders! @relation(name: "Orders_OrdersProductsAttributes")
+	orders_products: OrdersProducts!
+		@relation(name: "OrdersProducts_OrdersProductsAttributes")
+}
+
+type Reviews @model {
+	id: ID! @isUnique
+	reviews_id: String! @isUnique
+	products_id: String!
+	customers_id: String!
+	customers_name: String
+	reviews_rating: Int
+	date_added: DateTime
+	last_modified: DateTime
+	reviews_read: Int
+
+	reviews_description: ReviewsDescription!
+		@relation(name: "Reviews_ReviewsDescription")
+	customers: Customers! @relation(name: "Customers_Reviews")
+	products: Products! @relation(name: "Products_Reviews")
+}
+
+type ReviewsDescription @model {
+	id: ID! @isUnique
+	reivews_id: String! @isUnique
+	languages_id: String! @isUnique
+	reviews_text: String
+
+	reviews: Reviews! @relation(name: "Reviews_ReviewsDescription")
+	languages: Languages! @relation(name: "Languages_ReviewsDescription")
+}
+
+type Languages @model {
+	id: ID! @isUnique
+	languages_id: String! @isUnique
+	name: String
+	code: String
+	image: String
+	directory: String
+	sort_order: Int
+
+	shops_info: ShopsInfo! @relation(name: "Languages_ShopsInfo")
+	orders_status: OrdersStatus! @relation(name: "Languages_OrdersStatus")
+	reviews_description: ReviewsDescription!
+		@relation(name: "Languages_ReviewsDescription")
+	products_options_values: ProductsOptionsValues!
+		@relation(name: "Languages_ProductsOptionsValues")
+	products_options: ProductsOptions!
+		@relation(name: "Languages_ProductsOptions")
+	products_description: ProductsDescription!
+		@relation(name: "Languages_ProductsDescription")
+	categories_description: CategoriesDescription!
+		@relation(name: "Languages_CategoriesDescription")
+}
+
+type Products @model {
+	id: ID! @isUnique
+	products_id: String! @isUnique
+	products_quantity: Int
+	products_model: String
+	products_image: String
+	products_price: Float
+	products_date_added: DateTime
+	products_last_modified: DateTime
+	products_date_available: DateTime
+	products_weight: Float
+	products_status: Boolean @defaultValue(value: "false")
+	products_tax_class_id: String!
+	shops_id: String!
+
+	customers_basket: [CustomersBasket!]!
+		@relation(name: "Products_CustomersBasket")
+	reviews: [Reviews!]! @relation(name: "Products_Reviews")
+	products_to_categories: ProductsToCategories!
+		@relation(name: "Products_ProductsToCategories")
+	products_description: ProductsDescription!
+		@relation(name: "Products_ProductsDescription")
+	specials: [Specials!]! @relation(name: "Products_Specials")
+	orders_products: [OrdersProducts!]! @relation(name: "Products_OrdersProducts")
+	customers_basket_attributes: [CustomersBasketAttributes!]!
+		@relation(name: "Products_CustomersBasketAttributes")
+	products_attributes: [ProductsAttributes!]!
+		@relation(name: "Products_ProductsAttributes")
+	tax_class: TaxClass! @relation(name: "Products_TaxClass")
+	shops: Shops! @relation(name: "Products_Shops")
+}
+
+type ProductsAttributes @model {
+	id: ID! @isUnique
+	products_attributes_id: String! @isUnique
+	products_id: String!
+	options_id: String!
+	options_values_id: String!
+	options_values_price: Float
+	price_prefix: Boolean @defaultValue(value: "false")
+
+	products: Products! @relation(name: "Products_ProductsAttributes")
+	products_options: ProductsOptions!
+		@relation(name: "ProductsAttributes_ProductsOptions")
+	products_options_values: ProductsOptionsValues!
+		@relation(name: "ProductsAttributes_ProductsOptionsValues")
+}
+
+type ProductsOptionsValues @model {
+	id: ID! @isUnique
+	products_options_values_id: String! @isUnique
+	languages_id: String! @isUnique
+	products_options_values_name: String
+
+	languages: Languages! @relation(name: "Languages_ProductsOptionsValues")
+	customers_basket_attributes: [CustomersBasketAttributes!]!
+		@relation(name: "ProductsOptionsValues_CustomersBasketAttributes")
+	products_attributes: [ProductsAttributes!]!
+		@relation(name: "ProductsAttributes_ProductsOptionsValues")
+	products_options_values_to_products_options: [ProductsOptionsValuesToProductsOptions!]!
+		@relation(
+			name: "ProductsOptionsValues_ProductsOptionsValuesToProductsOptions"
+		)
+}
+
+type ProductsOptionsValuesToProductsOptions @model {
+	id: ID! @isUnique
+	products_options_values_to_products_options_id: String! @isUnique
+	products_options_id: String!
+	products_options_values_id: String!
+
+	products_options: ProductsOptions!
+		@relation(name: "ProductsOptions_ProductsOptionsValuesToProductsOptions")
+	products_options_values: ProductsOptionsValues!
+		@relation(
+			name: "ProductsOptionsValues_ProductsOptionsValuesToProductsOptions"
+		)
+}
+
+type ProductsOptions @model {
+	id: ID! @isUnique
+	products_options_id: String! @isUnique
+	languages_id: String! @isUnique
+	products_options_name: String
+
+	languages: Languages! @relation(name: "Languages_ProductsOptions")
+	products_attributes: [ProductsAttributes!]!
+		@relation(name: "ProductsAttributes_ProductsOptions")
+	customers_basket_attributes: [CustomersBasketAttributes!]!
+		@relation(name: "ProductsOptions_CustomersBasketAttributes")
+	products_options_values_to_products_options: [ProductsOptionsValuesToProductsOptions!]!
+		@relation(name: "ProductsOptions_ProductsOptionsValuesToProductsOptions")
+}
+
+type ProductsDescription @model {
+	id: ID! @isUnique
+	products_id: String! @isUnique
+	languages_id: String! @isUnique
+	products_name: String
+	products_description: String
+	products_url: String
+	products_viewed: String
+
+	languages: Languages! @relation(name: "Languages_ProductsDescription")
+	products: Products! @relation(name: "Products_ProductsDescription")
+}
+
+type Categories @model {
+	id: ID! @isUnique
+	categories_id: String! @isUnique
+	categories_image: String
+	parent_categories_id: String!
+	sort_order: Int
+	date_added: DateTime
+	last_modified: DateTime
+
+	categories_description: CategoriesDescription!
+		@relation(name: "Categories_CategoriesDescription")
+	categories: Categories! @relation(name: "Categories_Categories")
+	categories: [Categories!]! @relation(name: "Categories_Categories")
+	products_to_categories: ProductsToCategories!
+		@relation(name: "Categories_ProductsToCategories")
+}
+
+type CategoriesDescription @model {
+	id: ID! @isUnique
+	categories_id: String! @isUnique
+	languages_id: String! @isUnique
+	categories_name: String
+
+	languages: Languages! @relation(name: "Languages_CategoriesDescription")
+	categories: Categories! @relation(name: "Categories_CategoriesDescription")
+}
+
+type ProductsToCategories @model {
+	id: ID! @isUnique
+	products_id: String! @isUnique
+	categories_id: String! @isUnique
+
+	categories: Categories! @relation(name: "Categories_ProductsToCategories")
+	products: Products! @relation(name: "Products_ProductsToCategories")
+}
+
+type Shops @model {
+	id: ID! @isUnique
+	shops_id: String! @isUnique
+	shops_name: String
+	shops_image: String
+
+	shops_info: ShopsInfo! @relation(name: "Shops_ShopsInfo")
+	products: [Products!]! @relation(name: "Products_Shops")
+}
+
+type ShopsInfo @model {
+	id: ID! @isUnique
+	shops_id: String! @isUnique
+	languages_id: String! @isUnique
+	shops_url: String
+	url_clicked: Int
+	date_last_click: DateTime
+	date_added: DateTime
+
+	shops: Shops! @relation(name: "Shops_ShopsInfo")
+	languages: Languages! @relation(name: "Languages_ShopsInfo")
+}
+
+type Specials @model {
+	id: ID! @isUnique
+	specials_id: String! @isUnique
+	products_id: String!
+	specials_new_products_price: Float
+	specials_date_added: DateTime
+	specials_last_modified: DateTime
+
+	products: Products! @relation(name: "Products_Specials")
+}
