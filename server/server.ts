@@ -1,6 +1,7 @@
 import fs from "fs";
 import cors from "cors";
 import path from "path";
+import http from "http";
 import https from "https";
 import helmet from "helmet";
 import logger from "morgan";
@@ -33,11 +34,9 @@ const options = {
 };
 
 const app = express();
-const server = https
-	.createServer(options, app)
-	.listen(Number(PORT), undefined, () => {
-		console.log(`Server is listening @ ${HOST}:${PORT}`);
-	});
+const server = http.createServer(app).listen(Number(PORT), undefined, () => {
+	console.log(`Server is listening @ ${HOST}:${PORT}`);
+});
 
 const FileStore = fileStore(session);
 const io = socketIO(server);
