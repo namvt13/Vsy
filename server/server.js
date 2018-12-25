@@ -52,9 +52,7 @@ app.use(express_session_1.default({
     saveUninitialized: false,
     cookie: {
         secure: true,
-        sameSite: true,
-        maxAge: 3600000,
-        httpOnly: true
+        maxAge: 3600000
     },
     store: new FileStore()
 }));
@@ -175,6 +173,8 @@ app.post("/search", (req, res) => {
     }
 });
 function isAuthed(req, res, next) {
+    console.log(req.isAuthenticated());
+    console.log(req.user);
     if (req.isAuthenticated()) {
         return next();
     }

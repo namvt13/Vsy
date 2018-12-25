@@ -67,9 +67,9 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			secure: true,
-			sameSite: true,
-			maxAge: 3600000,
-			httpOnly: true
+			// sameSite: true,
+			maxAge: 3600000
+			// httpOnly: true
 		},
 		store: new FileStore()
 	})
@@ -242,6 +242,8 @@ function isAuthed(
 	res: express.Response,
 	next: express.NextFunction
 ) {
+	console.log(req.isAuthenticated());
+	console.log(req.user);
 	if (req.isAuthenticated()) {
 		return next();
 	}
