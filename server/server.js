@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
-const http_1 = __importDefault(require("http"));
+const https_1 = __importDefault(require("https"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
 const express_1 = __importDefault(require("express"));
@@ -30,7 +30,9 @@ const options = {
     cert: fs_1.default.readFileSync(path_1.default.join(__dirname, "ssl", "server.crt"))
 };
 const app = express_1.default();
-const server = http_1.default.createServer(app).listen(Number(PORT), undefined, () => {
+const server = https_1.default
+    .createServer(options, app)
+    .listen(Number(PORT), undefined, () => {
     console.log(`Server is listening @ ${HOST}:${PORT}`);
 });
 const FileStore = session_file_store_1.default(express_session_1.default);
