@@ -40,6 +40,7 @@ app.set("views", path_1.default.join(__dirname, "..", "views"));
 app.set("view engine", "hbs");
 app.use(morgan_1.default("dev"));
 app.use(helmet_1.default());
+app.use(compression_1.default());
 app.use(cors_1.default({
     origin: true,
     credentials: true
@@ -61,7 +62,6 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public", 
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 passport_2.default(passport_1.default, HOST, Number(PORT));
-app.use(compression_1.default());
 let connectedIO = [];
 io.on("connection", socketIO_1.default(io, connectedIO, user));
 function authenticationHandler(stategy, errorIfNotFound) {

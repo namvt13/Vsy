@@ -52,6 +52,7 @@ app.set("view engine", "hbs");
 
 app.use(logger("dev"));
 app.use(helmet());
+app.use(compression());
 app.use(
 	cors({
 		origin: true,
@@ -79,7 +80,6 @@ app.use(express.static(path.join(__dirname, "..", "public", "build")));
 app.use(passport.initialize());
 app.use(passport.session());
 setupPassport(passport, HOST, Number(PORT));
-app.use(compression());
 
 let connectedIO = [] as {id: string; user: string}[];
 // Real-time IO chat handler.
