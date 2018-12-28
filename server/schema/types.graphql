@@ -213,6 +213,7 @@ type ProductAttribute @model {
 type ProductDescription @model {
 	id: ID! @isUnique
 	productName: String
+	productOverview: String
 	productDescription: String
 	productUrl: String
 	productViewed: Int
