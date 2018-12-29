@@ -53,6 +53,7 @@ type Customer @model {
 	customerGender: Boolean @defaultValue(value: false)
 	customerFirstname: String
 	customerLastname: String
+	customerImage: String
 	customerDob: DateTime
 	customerEmailAddress: String
 	customerPhone: String
@@ -93,16 +94,16 @@ type Language @model {
 	image: String
 	directory: String
 	sortOrder: Int
-	shopInfo: ShopInfo @relation(name: "LanguageShopInfo")
-	orderStatus: OrderStatus @relation(name: "LanguageOrderStatus")
-	reviewDescription: ReviewDescription
+	shopInfo: [ShopInfo!]! @relation(name: "LanguageShopInfo")
+	orderStatus: [OrderStatus!]! @relation(name: "LanguageOrderStatus")
+	reviewDescription: [ReviewDescription!]!
 		@relation(name: "LanguageReviewDescription")
-	productOptionValue: ProductOptionValue
+	productOptionValue: [ProductOptionValue!]!
 		@relation(name: "LanguageProductOptionValue")
-	productOption: ProductOption @relation(name: "LanguageProductOption")
-	productDescription: ProductDescription
+	productOption: [ProductOption!]! @relation(name: "LanguageProductOption")
+	productDescription: [ProductDescription!]!
 		@relation(name: "LanguageProductDescription")
-	categoryDescription: CategoryDescription
+	categoryDescription: [CategoryDescription!]!
 		@relation(name: "LanguageCategoryDescription")
 }
 
@@ -284,7 +285,6 @@ type PromotionHistory @model {
 
 type Review @model {
 	id: ID! @isUnique
-	customerName: String
 	reviewRating: Float
 	updatedAt: DateTime!
 	createdAt: DateTime!
@@ -319,7 +319,8 @@ type Shop @model {
 
 type ShopInfo @model {
 	id: ID! @isUnique
-	shopUrl: String
+	shopAddress: String
+  shopUrl: String
 	urlClicked: Int
 	dateLastClick: DateTime
 	updatedAt: DateTime!
