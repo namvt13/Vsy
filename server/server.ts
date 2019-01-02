@@ -263,11 +263,16 @@ app.get("/content", isAuthed, (req, res) => {
 	res.render("login");
 });
 
-app.use("/", (req, res) => {
-	user = req.user;
-	res.render("index", {
-		title: "TestApp"
-	});
+// app.use("/", (req, res) => {
+// 	user = req.user;
+// 	res.render("index", {
+// 		title: "TestApp"
+// 	});
+// });
+
+app.use("*", (req, res) => {
+	express.static(path.join(__dirname, "..", "public", "build"));
+	res.sendFile(path.join(__dirname, "..", "public", "build", "index.html"));
 });
 
 // Catches 404 and forward to the error handler.

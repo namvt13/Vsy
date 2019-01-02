@@ -191,11 +191,9 @@ app.get("/auth/check", isAuthed, (req, res) => {
 app.get("/content", isAuthed, (req, res) => {
     res.render("login");
 });
-app.use("/", (req, res) => {
-    user = req.user;
-    res.render("index", {
-        title: "TestApp"
-    });
+app.use("*", (req, res) => {
+    express_1.default.static(path_1.default.join(__dirname, "..", "public", "build"));
+    res.sendFile(path_1.default.join(__dirname, "..", "public", "build", "index.html"));
 });
 app.use((req, res, next) => {
     next(http_errors_1.default(404));
