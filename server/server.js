@@ -25,10 +25,6 @@ const socketIO_1 = __importDefault(require("./utils/socketIO"));
 const credentials_json_1 = __importDefault(require("./data/credentials.json"));
 const config = JSON.parse(fs_1.default.readFileSync(path_1.default.join(__dirname, "config.json")));
 const { HOST = config.URL, PORT = process.env.PORT || config.PORT } = process.env;
-const options = {
-    key: fs_1.default.readFileSync(path_1.default.join(__dirname, "ssl", "server.key")),
-    cert: fs_1.default.readFileSync(path_1.default.join(__dirname, "ssl", "server.crt"))
-};
 const app = express_1.default();
 const server = http_1.default.createServer(app).listen(Number(PORT), undefined, () => {
     console.log(`Server is listening @ ${HOST}:${PORT}`);

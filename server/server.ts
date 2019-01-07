@@ -28,15 +28,16 @@ const config = JSON.parse(fs.readFileSync(
 ) as any);
 
 const {HOST = config.URL, PORT = process.env.PORT || config.PORT} = process.env;
-const options = {
-	key: fs.readFileSync(path.join(__dirname, "ssl", "server.key")),
-	cert: fs.readFileSync(path.join(__dirname, "ssl", "server.crt"))
-};
 
 const app = express();
 const server = http.createServer(app).listen(Number(PORT), undefined, () => {
 	console.log(`Server is listening @ ${HOST}:${PORT}`);
 });
+
+// const options = {
+// 	key: fs.readFileSync(path.join(__dirname, "ssl", "server.key")),
+// 	cert: fs.readFileSync(path.join(__dirname, "ssl", "server.crt"))
+// };
 // const server = https
 // 	.createServer(options, app)
 // 	.listen(Number(PORT), undefined, () => {
