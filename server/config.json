@@ -1,6 +1,6 @@
 {
-	"URL": "https://ecommerce.example.com",
-	"graphqlURL": "//",
+	"URL": "http://ecommerce.example.com",
+	"graphqlURL": "https://api.graph.cool/simple/v1/cjp9k67ip4lla0146in3dn6ix",
 	"PORT": 5050,
 	"auth": {
 		"facebook": {

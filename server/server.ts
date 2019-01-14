@@ -6,9 +6,7 @@ import https from "https";
 import helmet from "helmet";
 import logger from "morgan";
 import express from "express";
-import moment from "moment";
 import bcrypt from "bcrypt";
-import validator from "validator";
 import compression from "compression";
 import session from "express-session";
 import fileStore from "session-file-store";
@@ -30,10 +28,10 @@ const config = JSON.parse(fs.readFileSync(
 const {HOST = config.URL, PORT = process.env.PORT || config.PORT} = process.env;
 
 const app = express();
+
 const server = http.createServer(app).listen(Number(PORT), undefined, () => {
 	console.log(`Server is listening @ ${HOST}:${PORT}`);
 });
-
 // const options = {
 // 	key: fs.readFileSync(path.join(__dirname, "ssl", "server.key")),
 // 	cert: fs.readFileSync(path.join(__dirname, "ssl", "server.crt"))
@@ -248,7 +246,7 @@ function isAuthed(
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.status(401).send({
+	res.status(200).send({
 		isLoggedIn: false
 	});
 }

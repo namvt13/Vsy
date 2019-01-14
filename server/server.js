@@ -174,7 +174,7 @@ function isAuthed(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.status(401).send({
+    res.status(200).send({
         isLoggedIn: false
     });
 }
