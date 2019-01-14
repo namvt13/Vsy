@@ -1,0 +1,19 @@
+{
+	"URL": "https://ecommerce.example.com",
+	"graphqlURL": "//",
+	"PORT": 5050,
+	"auth": {
+		"facebook": {
+			"clientID": "clientID",
+			"clientSecret": "clientSecret"
+		},
+		"twitter": {
+			"consumerKey": "noKey",
+			"consumerSecret": "noSecret"
+		},
+		"google": {
+			"clientID": "clientID",
+			"clientSecret": "clientSecret"
+		}
+	}
+}
