@@ -241,17 +241,17 @@ function isAuthed(
 	res: express.Response,
 	next: express.NextFunction
 ) {
-	console.log(req.isAuthenticated());
-	console.log(req.user);
 	if (req.isAuthenticated()) {
 		return next();
 	}
+	console.log("Not logged in...");
 	res.status(200).send({
 		isLoggedIn: false
 	});
 }
 
 app.get("/auth/check", isAuthed, (req, res) => {
+	console.log("Logged in...");
 	res.status(200).send({
 		isLoggedIn: true,
 		displayName: req.user.displayName
