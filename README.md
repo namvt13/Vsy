@@ -37,7 +37,7 @@ npm install
 ```
 yarn/npm start
 ```
-- Default port is 5050, you can change it in [config.json] (config.json) or use the environment port like this:
+- Default port is 5050, you can change it in [config.json] (../server/config.json) or use the environment port like this:
 ```
 // Run on port 4040
 PORT=4040 yarn/npm start
