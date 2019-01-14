@@ -43,3 +43,20 @@ yarn/npm start
 PORT=4040 yarn/npm start
 ```
 - "config.json" contains info on authentication (removed here, you can add your own) key and secret as well as other configs.
+
+### Tests
+Not added yet! More updates in the future.
+
+## Deployment
+Deploy with Docker:
+
+## Built with
+
+## Contributing
+Please PM me directly for details
+
+## Author
+* **Me** - Initial work
+
+## License
+This project is licenced under the MIT License - see the [LICENSE.md] (LICENSE.md) file for details
