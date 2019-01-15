@@ -1,0 +1,123 @@
+﻿interface Node {
+	id: ID!
+}
+
+type PageInfo {
+	hasNextPage: Boolean!
+	hasPreviousPage: Boolean!
+	startCursor: String
+	endCursor: String
+}
+
+type ShopInfoConnection {
+	edges: [ShopInfoEdge]
+	pageInfo: PageInfo!
+}
+
+type ShopInfoEdge {
+	cursor: String!
+	node: ShopInfo
+}
+
+input CreateShopInfoInput {
+
+}
+
+type CreateShopInfoPayload {
+
+}
+
+input DeleteShopInfoInput {
+
+}
+
+type DeleteShopInfoPayload {
+  
+}
+
+type ProductDescriptionConnection {
+	edges: [ProductDescriptionEdge]
+	pageInfo: PageInfo!
+}
+
+type ProductDescriptionEdge {
+	cursor: String!
+	node: ProductDescription
+}
+
+type ProductConnection {
+	edges: [ProductEdge]
+	pageInfo: PageInfo!
+}
+
+type ProductEdge {
+	cursor: String!
+	node: Product
+}
+
+type Product implements Node {
+	id: ID! @isUnique
+	productQuantity: Int
+	productModel: String
+	productImage: String
+	productPrice: Float
+	updatedAt: DateTime!
+	createdAt: DateTime!
+	productDateAvailable: DateTime
+	productWeight: Float
+	productStatus: Boolean @defaultValue(value: false)
+	productDescription: ProductDescription
+	taxClass: TaxClass!
+	shop: Shop!
+}
+
+type ProductDescription implements Node {
+	id: ID! @isUnique
+	productName: String
+	productOverview: String
+	productDescription: String
+	productUrl: String
+	productViewed: Int
+	language: Language!
+	product: Product!
+}
+
+type Shop implements Node {
+	id: ID! @isUnique
+	shopName: String
+	shopImage: String
+	shopInfo: ShopInfo
+	product: ProductConnection
+}
+
+type ShopInfo implements Node {
+	id: ID! @isUnique
+	shopAddress: String
+	shopUrl: String
+	urlClicked: Int
+	dateLastClick: DateTime
+	updatedAt: DateTime!
+	createdAt: DateTime!
+	shop: Shop!
+	language: Language!
+}
+
+type Language implements Node {
+	id: ID! @isUnique
+	name: String
+	code: String
+	image: String
+	directory: String
+	sortOrder: Int
+	shopInfo: ShopInfoConnection
+	productDescription: ProductDescriptionConnection
+}
+
+type TaxClass implements Node {
+	id: ID! @isUnique
+	taxClassTitle: String
+	taxClassDescription: String
+	updatedAt: DateTime!
+	createdAt: DateTime!
+	product: ProductConnection
+}

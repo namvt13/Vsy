@@ -1,0 +1,118 @@
+﻿type Viewer {
+	allShops: ShopConnection!
+	allShopInfos: ShopInfoConnection!
+	Shop(id: ID): Shop
+	ShopInfo(id: ID): ShopInfo
+	id: ID!
+	node: Node
+}
+
+type PageInfo {
+	hasNextPage: Boolean!
+	hasPreviousPage: Boolean!
+	startCursor: String
+	endCursor: String
+}
+
+type ShopConnection {
+	edges: [ShopEdge]
+	pageInfo: PageInfo!
+}
+
+type ShopEdge {
+	cursor: String!
+	node: Shop
+}
+
+input CreateShopInput {
+	shopName: String
+	shopImage: String
+	shopInfoId: ID
+}
+
+type CreateShopPayload {
+	viewer: Viewer!
+	clientMutationId: String!
+	shop: Shop
+	edge: ShopEdge
+	shopInfo: ShopInfo
+}
+
+input DeleteShopInput {
+	id: ID!
+	clientMutationId: String!
+}
+
+type DeleteShopPayload {
+	viewer: Viewer!
+	clientMutationId: String!
+	shop: Shop
+	edge: ShopEdge
+	shopInfo: ShopInfo
+	deletedId: ID
+}
+
+type ShopInfoConnection {
+	edges: [ShopInfoEdge]
+	pageInfo: PageInfo!
+}
+
+type ShopInfoEdge {
+	cursor: String!
+	node: ShopInfo
+}
+
+input CreateShopInfoInput {
+	shopAddress: String
+	shopUrl: String
+	urlClicked: Int
+	dateLastClick: DateTime
+	updatedAt: DateTime
+	createdAt: DateTime
+	shopId: ID
+	clientMutationId: String!
+}
+
+type CreateShopInfoPayload {
+	viewer: Viewer!
+	shopInfo: ShopInfo
+	edge: ShopInfoEdge
+	shop: Shop
+	clientMutationId: String!
+}
+
+input DeleteShopInfoInput {
+	id: ID!
+	clientMutationId: String!
+}
+
+type DeleteShopInfoPayload {
+	viewer: Viewer!
+	clientMutationId: String!
+	shopInfo: ShopInfo
+	edge: ShopInfoEdge
+	shop: Shop
+	deletedId: ID
+}
+
+interface Node {
+	id: ID!
+}
+
+type Shop implements Node {
+	id: ID! @isUnique
+	shopName: String
+	shopImage: String
+	shopInfo: ShopInfo
+}
+
+type ShopInfo implements Node {
+	id: ID! @isUnique
+	shopAddress: String
+	shopUrl: String
+	urlClicked: Int
+	dateLastClick: DateTime
+	updatedAt: DateTime
+	createdAt: DateTime
+	shop: Shop!
+}

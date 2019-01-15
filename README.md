@@ -9,6 +9,12 @@ New e-commerce project, inspired by [Etsy](https://www.etsy.com/), complete with
 - Support socket.io for real-time support chat (to be implemented).
 - Included part of GraphQL server and front-end Relay-enabled components.
 
+Working:
+
+- Pages: Category, Sell on Vsy, Product, User, Shop, Register, Sign-in.
+- Cart: Add product from Category page, remove from cart.
+- Create: New product, shop, customer, order.
+
 ## Getting started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See "Deployment" for notes on how to deploy the project on a live system.
@@ -57,7 +63,7 @@ PORT=4040 yarn/npm start
 ```
 
 - "config.json" contains info on authentication (removed here, you can add your own) key and secret as well as other configs.
-- To enable authentication, uncomment the https server and comment out the http server like this: // image
+- To enable authentication, uncomment the https server and comment out the http server like this: [screenshot.jpg](screenshot.jpg)
 
 ### Tests
 

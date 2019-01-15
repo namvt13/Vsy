@@ -1,0 +1,104 @@
+type PageInfo {
+	hasNextPage: Boolean!
+	hasPreviousPage: Boolean!
+	startCursor: String
+	endCursor: String
+}
+
+interface Node {
+	id: ID!
+}
+
+type Product implements Node {
+	id: ID!
+	productDateAvailable: DateTime
+	productDescription(filter: ProductDescriptionFilter): ProductDescription
+	productImage: String
+	productModel: String
+	productPrice: Float
+	productQuantity: Int
+	productStatus: Boolean
+	productWeight: Float
+	createdAt: DateTime!
+	updatedAt: DateTime!
+}
+
+type ProductDescription implements Node {
+	id: ID!
+	product(filter: ProductFilter): Product!
+	productDescription: String
+	productName: String
+	productOverview: String
+	productUrl: String
+	productViewed: Int
+}
+
+type ProductConnection {
+	pageInfo: PageInfo!
+	edges: [ProductEdge]
+	count: Int!
+}
+
+type ProductEdge {
+	node: Product!
+	cursor: String!
+}
+
+type ProductDescriptionConnection {
+	pageInfo: PageInfo!
+	edges: [ProductDescriptionEdge]
+	count: Int!
+}
+
+type ProductDescriptionEdge {
+	node: ProductDescription!
+	cursor: String!
+}
+
+input CreateProduct {
+	productDateAvailable: DateTime
+	productImage: String
+	productModel: String
+	productPrice: Float
+	productQuantity: Int
+	productStatus: Boolean
+	productWeight: Float
+	productDescriptionId: ID
+	productDescription: ProductproductDescriptionProductDescription
+}
+
+input CreateProductDescription {
+	productDescription: String
+	productName: String
+	productOverview: String
+	productUrl: String
+	productViewed: Int
+	productId: ID
+	product: ProductDescriptionproductProduct
+}
+
+type DeleteProductPayload {
+	deletedId: ID
+}
+
+type DeleteProductDescriptionPayload {
+	deletedId: ID
+}
+
+type Viewer {
+	allProducts(
+		after: String
+		before: String
+		first: Int
+		last: Int
+	): ProductConnection!
+	allProductDescriptions(
+		after: String
+		before: String
+		first: Int
+		last: Int
+	): ProductDescriptionConnection!
+	Product(id: ID): Product
+	ProductDescription(id: ID): ProductDescription
+	id: ID!
+}
