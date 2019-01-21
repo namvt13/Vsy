@@ -63,7 +63,7 @@ PORT=4040 yarn/npm start
 ```
 
 - "config.json" contains info on authentication (removed here, you can add your own) key and secret as well as other configs.
-- To enable authentication, uncomment the https server and comment out the http server like this: [screenshot.jpg](screenshot.jpg)
+- To enable authentication, uncomment the https server and comment out the http server like this: ![screenshot.jpg](screenshot.jpg)
 
 ## Built with
 
