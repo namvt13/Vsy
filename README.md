@@ -65,14 +65,6 @@ PORT=4040 yarn/npm start
 - "config.json" contains info on authentication (removed here, you can add your own) key and secret as well as other configs.
 - To enable authentication, uncomment the https server and comment out the http server like this: [screenshot.jpg](screenshot.jpg)
 
-### Tests
-
-Not added yet! More updates in the future.
-
-## Deployment
-
-Deploy with Docker: coming...
-
 ## Built with
 
 - [Express](https://github.com/expressjs/express)
@@ -88,7 +80,7 @@ Please PM me directly for details
 
 ## Author
 
-- **Me** - Initial work
+- **Me** - Original work
 
 ## License
 
